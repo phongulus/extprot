@@ -2,7 +2,7 @@
 open Printf
 open Ptypes
 open Gencode
-open Camlp4.PreCast
+open Pcaml
 open ExtList
 open ExtString
 
@@ -117,7 +117,7 @@ let exTup_of_lidlist _loc l = match exLids_of_strings _loc l with
 
 let patt_of_ll_type t =
   let _loc = Loc.mk "<genererated code @ patt_of_ll_type>" in
-    <:patt< Extprot.Codec.$uid:Codec.string_of_low_level_type t$ >>
+    <:patt< Extprot.Codec.($uid:Codec.string_of_low_level_type t$) >>
 
 let ident_with_path _loc path ident =
   List.fold_right

@@ -23,7 +23,7 @@ depends: [
   "ocamlfind" {build}
   "ounit" {with-test}
   "base64" {with-test}
-  "camlp4" {build}
+  "camlp5" {build}
   ("extlib" {>= "1.7.7"} | "extlib-compat" {>="1.7.7"})
   "base-bytes"
 ]

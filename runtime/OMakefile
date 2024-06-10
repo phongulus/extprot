@@ -1,8 +1,8 @@
-OCAMLPACKS[] += camlp4.macro
+OCAMLPACKS[] += camlp5.macro
 
 PP = -ppopt -D$(ENDIANNESS)
-OCAMLDEPFLAGS += -syntax camlp4o $(PP)
-OCAMLFLAGS += -syntax camlp4o $(PP)
+OCAMLDEPFLAGS += -syntax camlp5o $(PP)
+OCAMLFLAGS += -syntax camlp5o $(PP)
 
 EXTPROT_RUNTIME_OBJS[] =
 	buffer_pool

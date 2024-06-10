@@ -4,17 +4,18 @@ unsetenv(OCAMLFIND_TOOLCHAIN)
 OCAMLINCLUDES =
 OCAML_LIBS[]  =
 
-CAMLP4PATH = $(shell ocamlfind query camlp4)
-PARSERS_PATH = $(CAMLP4PATH)/Camlp4Parsers
+CAMLP5PATH = $(shell ocamlfind query camlp5)
+# PARSERS_PATH = $(CAMLP5PATH)/Camlp5Parsers
 
-OCAMLFLAGS += -syntax camlp4o -I $(PARSERS_PATH)
-OCAMLDEPFLAGS += -syntax camlp4o
+OCAMLFLAGS += -syntax camlp5o
+# -I $(PARSERS_PATH)
+OCAMLDEPFLAGS += -syntax camlp5o
 
 OCAMLDEP_MODULES_ENABLED = false
 
 OCAMLPACKS[] +=
-	camlp4.lib
-	camlp4.quotations
+	# camlp5.lib
+	camlp5.quotations
 	unix
 
 EXTPROT_OBJS[] =
@@ -33,12 +34,12 @@ EXTPROT_OBJS[] =
 	reader
 	types
 
-CAMLP4_OBJS[] =
-	Camlp4OCamlRevisedParser
-	Camlp4OCamlParser
+# CAMLP5_OBJS[] =
+# 	Camlp5OCamlRevisedParser
+# 	Camlp5OCamlParser
 
 section
-	OCAMLPACKS[] += camlp4.extend
+	OCAMLPACKS[] += camlp5.extend
 	OCAMLFLAGS += -w e
 	CamlSources(parser)
 
@@ -49,10 +50,11 @@ section
 section
 	OCAMLPACKS[] =
 		extlib
-		camlp4.macro
+		camlp5.macro
 	CamlSources(msg_buffer reader)
 
-OCamlLibrary(libextprotc, $(addprefix $(PARSERS_PATH)/, $(CAMLP4_OBJS)) $(EXTPROT_OBJS))
+# OCamlLibrary(libextprotc, $(addprefix $(PARSERS_PATH)/, $(CAMLP5_OBJS)) $(EXTPROT_OBJS))
+OCamlLibrary(libextprotc, $(EXTPROT_OBJS))
 
 OCAML_LIBS[] = libextprotc
 

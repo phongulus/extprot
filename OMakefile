@@ -27,7 +27,7 @@ if $(ge $(OCAML_MAJOR), 4)
        export
 
 OCAMLPACKS[] =
-	camlp4
+	camlp5
 	extlib
 	bytes
 	str

@@ -1,10 +1,11 @@
-open Camlp4.PreCast
+open PCaml
 open Ptypes
 
 (* use fresh module *)
-module Gram = MakeGram(Lexer)
+(* module Gram = MakeGram(Lexer) *)
 
-let entries = Gram.Entry.mk "type_expr"
+value gram = Grammar.gcreate (Plexer.gmake ())
+value entries = Grammar.Entry.create gram "type_expr"
 
 type constructor =
   [ `Constant of string
@@ -49,13 +50,13 @@ let texpr_replace_auto_with_eager = function
          opts)
   | x -> x
 
-EXTEND Gram
+EXTEND
   GLOBAL: entries;
 
   entries :
     [
       [ m = entry; l = entries -> (m :: l)
-      | `EOI -> [] ] ];
+      | EOI -> [] ] ];
 
   entry :
     [ "message"
@@ -132,13 +133,13 @@ EXTEND Gram
     [
       [ "true" -> "true"
       | "false" -> "false"
-      | `INT (_, s) -> s
-      | `INT64 (_, s) -> s
-      | `FLOAT (_, s) -> s
-      | "-"; `INT (_, s) -> "-" ^ s
-      | "-"; `INT64 (_, s) -> "-" ^ s
-      | "-"; `FLOAT (_, s) -> "-" ^ s
-      | `STRING (s, _) -> s
+      | s = INT -> int_of_string s
+      | s = INT64 -> Int64.of_string s
+      | s = FLOAT -> float_of_string s
+      | "-"; s = INT -> "-" ^ int_of_string s
+      | "-"; s = INT64 -> "-" ^ Int64.of_string s
+      | "-"; s = FLOAT -> "-" ^ float_of_string s
+      | s = STRING -> s
       ] ];
 
   ident_with_path :
@@ -207,9 +208,9 @@ EXTEND Gram
       | x = record_or_app; "|"; l = LIST1 [ n = a_UIDENT; r = record_or_app -> (n, r) ] SEP "|" ->
           `Sum (x, l) ] ];
 
-  a_LIDENT: [ [ `LIDENT s -> s ] ];
-  a_UIDENT: [ [ `UIDENT s -> s ] ];
-  a_STRING: [ [ `STRING (s, _) -> s ] ];
+  a_LIDENT: [ [ s = LIDENT -> s ] ];
+  a_UIDENT: [ [ s = UIDENT -> s ] ];
+  a_STRING: [ [ s = STRING -> s ] ];
 
 END
 
